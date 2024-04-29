@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{decorators/adminLayout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit category</title>
+    <script src="https://cdn.ckeditor.com/4.20.1/standard-all/ckeditor.js"></script>
+
+</head>
+<body>
+
+
+<div class="main-content" id="layoutSidenav_content" layout:fragment="content">
+
+    <div class="main-content-inner">
+        <div class="breadcrumbs" id="breadcrumbs" style="text-align: center;width: 50%">
+<!--            <script type="text/javascript">-->
+<!--                try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}-->
+<!--            </script>-->
+            <ul class="breadcrumb">
+                <li style="padding-left: 5px;padding-top: 5px">
+                    <i class="fa fa-book" style="font-size: 40px"></i>
+
+                </li>
+                <li class="active" style="text-align: center;padding-top: 5px"><h3>Sửa thể loại</h3></li>
+            </ul><!-- /.breadcrumb -->
+        </div>
+        <div class="page-content">
+            <div class="row">
+                <div class="col-xs-12">
+<!--                    <c:if test="${not empty message}">-->
+<!--                        <div class="alert alert-${alert}">-->
+<!--                            ${message}-->
+<!--                        </div>-->
+<!--                    </c:if>-->
+                    <form id="formSubmit" th:object="${category}" th:method="post" th:action="@{'/admin/category/save'}" enctype="multipart/form-data">
+
+
+                        </br>
+                        </br>
+                        <input type="text" value="edit" name="form" hidden="hidden"/>
+                        <input type="text" th:value="${category.getId()}" th:field="${category.id}" hidden="hidden"/>
+                        <br/>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Tên thể loại</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"  th:field="${category.name}" value=""/>
+                                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger"></p>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Link cho thể loại</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" th:field="${category.link_name}" value=""/>
+                                <p th:if="${#fields.hasErrors('link_name')}" th:errors="*{link_name}" class="alert alert-danger"></p>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="col-sm-3">
+                            <label class="col-sm-3 control-label no-padding-right">Thể loại cha</label>
+                            <select class="form-control"  th:field="${category.parent_id}">
+
+                                <option value="0">Không có</option>
+                                <option th:each="item:${categoryList}"  th:text="${item.getName()}" th:value="${item.getId()}"></option>
+
+                            </select>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+
+
+                                    <input type="submit" class="btn btn-white btn-warning btn-bold" value="Sửa thể loại" />
+                            </div>
+                        </div>
+                    <input type="hidden" value="" id="id" name="id"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+
+    </script>
+
+</div>
+
+
+
+</body>
+</html>

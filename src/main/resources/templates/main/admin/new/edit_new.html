@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{decorators/adminLayout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit news</title>
+    <script src="https://cdn.ckeditor.com/4.20.1/standard-all/ckeditor.js"></script>
+
+</head>
+<body>
+
+
+<div class="main-content" id="layoutSidenav_content" layout:fragment="content">
+
+    <div class="main-content-inner">
+        <div class="breadcrumbs" id="breadcrumbs" style="text-align: center;width: 50%; margin-left: 20px">
+            <!--            <script type="text/javascript">-->
+            <!--                try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}-->
+            <!--            </script>-->
+            <ul class="breadcrumb">
+                <li style="padding-left: 5px;padding-top: 5px">
+                    <i class="fa fa-edit" style="font-size: 40px;color: dodgerblue"></i>
+
+                </li>
+                <li class="active" style="text-align: center;padding-top: 5px"><h3>Sửa bài viết</h3></li>
+            </ul><!-- /.breadcrumb -->
+        </div>
+        <div class="page-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <!--                    <c:if test="${not empty message}">-->
+                    <!--                        <div class="alert alert-${alert}">-->
+                    <!--                            ${message}-->
+                    <!--                        </div>-->
+                    <!--                    </c:if>-->
+                    <form style="margin-left: 20px" id="formSubmit" th:object="${news}" th:method="post" th:action="@{'/admin/news/save'}" enctype="multipart/form-data">
+
+                        <input type="text" th:field="${news.id}" th:value="${news.getId()}" hidden="hidden">
+                        <input type="text" th:field="${news.thumbnail}" th:value="${news.getThumbnail()}" hidden="hidden">
+                        <input type="text" th:field="${news.flag}" th:value="${news.getFlag()}" hidden="hidden">
+
+                        <input type="text" name="form" value="edit" hidden="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Thể loại Lớn</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="cateParent" >
+
+                                    <option th:each="item:${categoryParentList}" th:value="${item.getId()}" th:text="${item.getName()}"></option>
+                                    <!--                                        <c:forEach var="item" items="${categories}">-->
+                                    <!--                                            <option value="${item.code}" <c:if test="${item.code == model.categoryCode}">selected="selected"</c:if>>-->
+                                    <!--                                            ${item.name}-->
+
+
+
+                                </select>
+                            </div>
+                        </div>
+
+                        </br>
+                        </br>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Thể loại nhỏ</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" th:field="${news.category}" >
+
+                                    <option th:each="item:${categoryDefault}" th:value="${item.getId()}" th:text="${item.getName()}"></option>
+                                    <!--                                        <c:forEach var="item" items="${categories}">-->
+                                    <!--                                            <option value="${item.code}" <c:if test="${item.code == model.categoryCode}">selected="selected"</c:if>>-->
+                                    <!--                                            ${item.name}-->
+
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Tiêu đề</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="title" name="title" th:field="${news.title}" value=""/>
+                                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="alert alert-danger"></p>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Hình đại diện</label>
+                            <div class="col-sm-9">
+                                <img th:src="@{${news.getThumbnail()}}" alt="thumbnail" id="preview_img" style="width: 120px;height: 100px">
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="file" class="form-control" name="photo" id="btn_preview" value=""/>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Mô tả ngắn</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="shortDescription" name="shortDescription" th:field="${news.shortDescription}" value=""/>
+                                <p th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}" class="alert alert-danger"></p>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Nội dung</label>
+                            <div class="col-sm-9">
+                                <!--                                id="content"-->
+                                <textarea rows="" cols=""  name="content" th:field="${news.content}" style="width: 820px;height: 175px"></textarea>
+                                <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="alert alert-danger"></p>
+                                <script>
+
+                                    // var editor=  CKEDITOR.replace( 'content' );
+                                    // {
+                                    //     filebrowserBrowseUrl: '/ckfinder/ImagesSave',
+                                    //         filebrowserUploadUrl: '/ckfinder/connector?command=QuickUpload&type=Files'
+                                    // }
+                                    var editor = CKEDITOR.replace( 'content', {
+                                        filebrowserBrowseUrl: '/news/ImagesSave',
+                                        filebrowserUploadUrl: '/ckfinder/connector?command=QuickUpload&type=Files'
+
+                                    });
+
+
+
+
+                                </script>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+
+                                <input type="submit" id="btn_test" class="btn btn-white btn-warning btn-bold" value="Cập nhật bài viết" />
+
+
+
+                            </div>
+                        </div>
+                        <input type="hidden" value="" id="id" name="id"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+
+            getCategory();
+
+        });
+
+
+        function getCategory() {
+
+            $("#cateParent").change(function () {
+
+                let idParent = $(this).val();
+                $.ajax({
+                    url:"/api/admin/news/category/"+idParent,
+                    type:"GET",
+                    dataType:"json",
+                    contentType:"application/json",
+
+                    success: function (data) {
+                        if(data.status =="Success"){
+                            console.log(data);
+                            $("#category").html(data.result);
+
+                        }
+
+
+                    }
+
+                })
+
+            })
+        }
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                // kiểm tra xem đã có file nào chưa
+                // input.files;
+
+                //lấy file đầu tiên
+                // input.files[0];
+                let reader = new FileReader();
+
+                //đọc file dưới dạng Blobs or File
+                reader.readAsDataURL(input.files[0]);
+
+                reader.onload = function (e) {
+                    // convert image file to base64 string
+                    //e.target.result
+                    $('#preview_img').attr('src', e.target.result);
+                }
+
+
+
+
+            }
+        }
+
+
+        $(document).ready(function(){
+
+            $("#btn_preview").change(function () {
+                readURL(this);
+                // let photo = $("#btn_preview").val().replace(/C:\\fakepath\\/i, '');
+                // alert(photo);
+                // $.ajax({
+                //     url:"/api/imgPreview",
+                //     type: "POST",
+                //     contentType: "application/json",
+                //     data: {
+                //       photo
+                //     },
+                //     success:function (data) {
+                //         alert(data.status);
+                //     }
+                //
+                //     })
+            })
+        });
+
+    </script>
+
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{decorators/webLayout}"
+>
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Thể thao</h1>
+<h1>Menu</h1>
+<div class="container px-4 px-lg-5" layout:fragment="content">
+    <!-- Heading Row-->
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-14" style="text-align: center">
+            <form th:action="@{'/News01/search'}">
+                <div>
+
+                   <h3><input type="text" name="search"style="width: 50%"><button type="submit">
+                    <i class="fas fa-search"></i></button></h3>
+                </div>
+            </form>
+        </div>
+        </br>
+        <div class="col-md-8 mb-5 cate-child" style="margin-top: 7%;margin-left: 22%" >
+            <div class="card-body" th:each="item:${listNews}">
+
+                <span><a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="@{${item.getThumbnail()}}" class ="thumbnail-img"></a></span>
+                <span style="width: 500px;float: right">
+                        <span><a th:href="@{'/News01/get/'+${item.getId()}}" > <h3 class="card-title" th:text="${item.getTitle()}"></h3></a></span>
+                        <span th:text="${item.getShortDescription()}"></span>
+
+                    </span>
+            </div>
+
+        </div>
+
+<!--        <div id="content_from_server" hidden="hidden" th:text="${News.getContent()}"></div>-->
+<!--        -->
+
+<!--        <div class="col-lg-8" id="contentData" style="margin-left: 160px">-->
+
+
+
+<!--        </div>-->
+
+    </div>
+    <!-- Call to Action-->
+
+<!--    <div class="card text-white bg-secondary my-5 py-4 text-center">-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--    </div>-->
+<!--    <div class="row gx-4 gx-lg-5 " style="margin-bottom: 100px" >-->
+<!--        <h3>Bình luận</h3>-->
+<!--        <div id="writeComment">-->
+
+<!--                <textarea cols="80" rows="3" id="contentComment"></textarea>-->
+
+<!--                <p><button id="btn_sendComment">Gửi</button></p>-->
+
+
+<!--        </div>-->
+<!--        <div id="showComment" style="border: solid blueviolet 1px; width: 610px; margin-left: 20px">-->
+<!--            <div  th:each="item:${CommentList}" class="commentListStyle">-->
+<!--               <p th:text="${item.customer.getNickname()}"></p>-->
+
+<!--                <span style="font-weight: bold" th:text="${item.getContent()}"></span>-->
+<!--                <p style="margin-bottom: 10px; text-align: right"><button class="showModal btn btn-white btn-warning btn-bold" th:value="${item.getId()}">Báo cáo</button></p>-->
+<!--            </div>-->
+
+<!--        </div>-->
+
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Content Row&ndash;&gt;-->
+<!--    <div class="row gx-4 gx-lg-5">-->
+<!--        &lt;!&ndash;        <div class="col-left col-small">&ndash;&gt;-->
+<!--        <div class="col-md-8 mb-5">-->
+<!--            <div class="card ">-->
+
+<!--                <h2>Xem nhiều</h2>-->
+<!--                <div class="card-body row gx-4 gx-lg-5" th:each="item:${ListNews}">-->
+<!--                    <div class="col-md-4 mb-5">-->
+<!--                        <a th:href="@{'/News01/get/'+${item.getId()}}"><img class ="thumbnail-img" th:src="${item.getThumbnail()}"></a>-->
+
+<!--                    </div>-->
+<!--                    <div class="col-md-8 mb-5 div-newsList">-->
+<!--                        <h3 class="card-title" ><a th:href="@{'/News01/get/'+${item.getId()}}" th:text="${item.getTitle()}"></a> </h3>-->
+
+<!--                        <p class="card-text" th:text="${item.getShortDescription()}" ></p>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+
+
+<!--            </div>-->
+<!--            &lt;!&ndash;            <div class="card">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <div class="card-body">&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <h2 class="card-title">Card Two0</h2>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>&ndash;&gt;-->
+<!--            &lt;!&ndash;                </div>&ndash;&gt;-->
+
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <div class="card">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <div class="card-body">&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <h2 class="card-title">Card Two0</h2>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>&ndash;&gt;-->
+<!--            &lt;!&ndash;                </div>&ndash;&gt;-->
+
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--        </div>-->
+
+<!--        <div class="col-md-4 mb-5">-->
+
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card One0</h2>-->
+
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card One0</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
+
+
+<!--        <div class="modal" id="form_report">-->
+<!--            <div class="modal-content" id="form_report_content">-->
+<!--                <span class="close" style="color: red">&times;</span>-->
+<!--                <p><h3>Báo cáo</h3></p>-->
+
+<!--                    <label>Nội dung báo cáo</label>-->
+<!--                    <p><textarea type="text" cols="50" rows="6" id="contentReport"></textarea></p>-->
+<!--                    <p><input type="text" th:if="${#httpSession.getAttribute('CustomerLogin')!=null}" th:value="${customerLog.getId()}" id="customerId" hidden="hidden"></p>-->
+<!--                    <p><input type="text" th:value="${News.getId()}" id="newsId" hidden="hidden"></p>-->
+<!--                    <p><input type="text" th:field="${report.comment.id}" class="commentId" hidden="hidden"></p>-->
+<!--                    <p><button id="btn_sendReport" >Gửi báo cáo</button></p>-->
+
+
+<!--            </div>-->
+<!--        </div>-->
+
+
+<!--        <div class="modal" id="login_form">-->
+<!--            <div class="modal-content">-->
+<!--                <span class="close" style="color: red">&times;</span>-->
+<!--                <p><h3>Đăng nhập</h3></p>-->
+
+<!--                <label>Email</label>-->
+<!--                <p><input type="text" id="email"></p>-->
+<!--                <p id="emailError" class="alert alert-danger"></p>-->
+<!--                </br>-->
+<!--                <label>Password</label>-->
+<!--                <p><input type="password" id="password"></p>-->
+<!--                <p id="passwordError" class="alert alert-danger"></p>-->
+<!--                <p><button id="btnLogin">Đăng nhập</button></p>-->
+
+
+<!--            </div>-->
+<!--        </div>-->
+
+        <!--        </div>-->
+        <!--        <div class="col-right col-medium">-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card Two0</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card Three0</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card one1</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card two1</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card three</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+    </div>
+    <script>
+        $(document).ready(function () {
+            let dataContentFromServer = $('#content_from_server').text();
+            // $('#btnSetData').click(function () {
+                $('#contentData').html(dataContentFromServer);
+            // });
+
+            ReportForm();
+            sendComment();
+            sendReport();
+            sendLogin();
+
+        });
+
+        function ReportForm() {
+
+                var modal = $('#form_report');
+                var btn = $('.showModal');
+                var span = $('.close');
+
+
+                btn.click(function () {
+                    let commentId = $(this).val();
+
+                    $('.commentId').val(commentId);
+                    modal.show();
+
+                });
+
+                span.click(function () {
+                    modal.hide();
+                });
+
+                $(window).on('click', function (e) {
+                    if ($(e.target).is('.modal')) {
+                        modal.hide();
+                    }
+                });
+
+
+        }
+        
+        function sendReport() {
+            $('#btn_sendReport').click(function () {
+                let commentId = $('.commentId').val();
+                let customerId = $('#customerId').val();
+
+
+
+                let contentReport = $('#contentReport').val();
+
+                let ReportData = {
+                    contentReport: contentReport,
+                    customer:{
+                        id:customerId
+                    },
+                    comment:{
+                        id:commentId
+                    }
+                }
+                if(customerId != null) {
+
+                    if (contentReport != "") {
+                        $.ajax({
+                            url: '/api/home/report/',
+                            type: 'Post',
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            data:
+                                JSON.stringify(ReportData),
+
+                            success: function (data) {
+
+                                if (data.status == "success") {
+                                    alert("Báo cáo thành công");
+                                    $('#contentReport').val("");
+                                }
+
+                            }
+                        })
+
+
+                    } else {
+                        alert("Nội dung báo cáo không được để trống");
+                    }
+                }else {
+                    alert("vui lòng đăng nhập để tiếp tục");
+                    LoginForm();
+                }
+
+            })
+        }
+
+        function LoginForm() {
+
+            var modal = $('#login_form');
+            var btn = $('#btn_sendComment');
+            var span = $('.close');
+
+            $('#emailError').hide();
+            $('#passwordError').hide();
+
+                modal.show();
+
+
+
+            span.click(function () {
+                modal.hide();
+            });
+
+            $(window).on('click', function (e) {
+                if ($(e.target).is('.modal')) {
+                    modal.hide();
+                }
+            });
+
+
+        }
+        
+        
+        function sendLogin() {
+            $('#btnLogin').click(function () {
+
+                let email = $('#email').val();
+                let password = $('#password').val();
+
+
+                let dataLogin = {
+                    email : email,
+                    password :password,
+                }
+
+                $.ajax({
+                        url:'/api/home/customer/login',
+                        type:'post',
+                        dataType:'json',
+                        contentType:'application/json',
+                        data: JSON.stringify(dataLogin),
+                        success: function (data) {
+                            if(data.status=="Success"){
+                                alert("Đăng nhập thành công");
+                                $('#email').val("");
+                                $('#password').val("");
+                                $('#emailError').hide();
+                                $('#passwordError').hide();
+                            }else if(data.status=="Error") {
+                                let result = data.result;
+                                console.log(data.result);
+                                result.forEach((item)=>{
+                                    let field = item.field;
+
+                                    // $('#'+field+'Error').text("");
+                                    let message = item.defaultMessage;
+                                    $('#'+field+'Error').show();
+                                    $('#'+field+'Error').append(message);
+                                    // $('#'+field).after("<span class='error'>"+message+"</span>");
+                                })
+
+                                alert("Đăng nhập ko thành công");
+                            }else {
+
+                                alert("Tài khoản hoặc mật khẩu không đúng");
+                            }
+                        }
+                })
+            });
+        }
+        
+
+        function sendComment() {
+            $('#btn_sendComment').click(function () {
+
+            let content = $('#contentComment').val().trim();
+            let customer_id = $('#customerId').val();
+            let newsId = $('#newsId').val();
+
+            let comment = {
+                content : content,
+                customer:{
+                    id: customer_id,
+
+
+
+                },
+                news:{
+                    id:newsId
+                }
+            }
+
+            if(customer_id !=null) {
+
+                if (content != "") {
+                    $.ajax({
+                        url: '/api/home/comment/',
+                        type: "POST",
+                        dataType: 'json',
+                        contentType: "application/json",
+
+                        data:
+                            JSON.stringify(comment)
+                        , success: function (data) {
+                            alert(data.status);
+                            $('#contentComment').val("");
+                            loadComment();
+                        }
+
+
+                    })
+
+                } else {
+                    alert("Bình luận không được để trống");
+                }
+            }else {
+                alert("Vui lòng đăng nhập để tiếp tục");
+                LoginForm();
+            }
+            });
+        }
+        
+        function loadComment() {
+            let newsId = $('#newsId').val();
+            $.ajax({
+                url: '/api/home/comment/list/'+newsId,
+                type:"Get",
+                dataType:'json',
+                contentType:"application/json",
+                success:function (data) {
+                    $('#showComment').html(data.map(function (comment) {
+
+                        return `<div class="commentListStyle">` +
+
+                            `<p>` +
+
+                            `${comment.customer.nickname}`+
+
+                                `</p>` +
+
+                            `<span style="font-weight: bold">` +
+
+                            `${comment.content}` +
+
+                                `</span>` +
+
+                            `<p style="margin-bottom: 10px; text-align: right">` +
+
+                            `<button className="showModal btn btn-white btn-warning btn-bold" value="${comment.id}"> Báo cáo` +
+                            `</button>` +
+                            `</p>` +
+                            `</div>`
+                    }))
+                }
+            });
+        }
+        
+    </script>
+
+</div>
+</body>
+</html>

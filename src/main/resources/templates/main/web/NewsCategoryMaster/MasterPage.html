@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{decorators/webLayout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Thể thao</h1>
+<h1>Menu</h1>
+<div class="container px-4 px-lg-5" layout:fragment="content" th:object="${CategoryMaster}">
+    <!-- Heading Row-->
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-14" style="text-align: center"><h1><a th:href="@{'/News01/master/'+${CategoryMaster.getLink_name()}}" th:text="${CategoryMaster.getName()}">  </a></h1></div>
+        <div class="col-lg-14 cate-child" >
+
+                <ul>
+<!--                    <li class="nav-item" th:each="item:${category}">-->
+<!--                        <a class="nav-link" th:href="@{'/News01/'+${item.link_name}}" th:text="${item.name}"></a>-->
+<!--                    </li>-->
+                    <li class="nav-item" th:each="item:${cateChild}">
+                        <a class="nav-link" th:href="@{'/News01/'+${item.getLink_name()}}" th:text="${item.getName()}"></a>
+                    </li>
+
+                </ul>
+
+        </div>
+        <div class="col-lg-7" style="height: 37rem" th:each="item:${newsFeatureBig}">
+
+            <div>
+                <a th:href="@{'/News01/get/'+${item.getId()}}"><img class="img-feature-big" th:src="${item.getThumbnail()}"></a>
+            </div>
+            <div class="content-feature">
+                <p><a th:href="@{'/News01/get/'+${item.getId()}}" class="title" th:text="${item.getTitle()}"></a></p>
+                <p th:text="${item.getShortDescription()}"></p>
+            </div>
+
+        </div>
+        <div class="col-lg-4">
+            <div th:each="item:${newsFeatureListTwo}">
+
+                <div>
+                   <a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="${item.getThumbnail()}" class="img-feature-small"></a>
+                </div>
+                <div>
+                    <p><a th:href="@{'/News01/get/'+${item.getId()}}" th:text="${item.getTitle()}" class="title-small"></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Call to Action-->
+
+<!--    <div class="card text-white bg-secondary my-5 py-4 text-center">-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--        <div class="card-body under-feature"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>-->
+<!--    </div>-->
+    <div class="row gx-4 gx-lg-5">
+            <div class="col-lg-14 under-feature">
+            <ul>
+                <li  class="nav-item news-feature-line" th:each="item:${newsFeatureListFour}">
+                    <div> <a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="@{${item.getThumbnail()}}" class ="thumbnail-img"></a></div>
+                    <div class="div-feature" style="width: 240px; "><a th:href="@{'/News01/get/'+${item.getId()}}" th:text="${item.getTitle()}"></a></div>
+                </li>
+
+            </ul>
+            </div>
+
+    </div>
+
+    <!-- Content Row-->
+    <div class="row gx-4 gx-lg-5">
+        <!--        <div class="col-left col-small">-->
+        <div class="col-md-8 mb-5">
+            <div class="card ">
+
+                <h2 th:text="${CategoryMaster.getName()}"></h2>
+                <div class="card-body row gx-4 gx-lg-5" th:each="item:${news}" >
+                    <div class="col-md-4 mb-5">
+                        <a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="@{${item.getThumbnail()}}" class ="thumbnail-img" ></a>
+
+                    </div>
+                    <div class="col-md-8 mb-5 div-newsList">
+                        <h3 class="card-title" ><a th:href="@{'/News01/get/'+${item.getId()}}" th:text="${item.getTitle()}"></a> </h3>
+
+                        <p class="card-text" th:text="${item.getShortDescription()}"></p>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!--            <div class="card">-->
+            <!--                <div class="card-body">-->
+            <!--                    <h2 class="card-title">Card Two0</h2>-->
+            <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>-->
+            <!--                </div>-->
+
+            <!--            </div>-->
+            <!--            <div class="card">-->
+            <!--                <div class="card-body">-->
+            <!--                    <h2 class="card-title">Card Two0</h2>-->
+            <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>-->
+            <!--                </div>-->
+
+            <!--            </div>-->
+        </div>
+
+        <div class="col-md-4 mb-5">
+            <span><h3>Xem nhiều</h3></span>
+            <div th:each="item:${newsRight}" style="width: 240px;margin-left: 10px">
+
+                    <img th:src="${item.getThumbnail()}" class="thumbnail-img">
+
+                    <h5 style="width: 240px" th:text="${item.getTitle()}"></h5>
+
+
+            </div>
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card One0</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+
+<!--            </div>-->
+        </div>
+
+        <!--        </div>-->
+        <!--        <div class="col-right col-medium">-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card Two0</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card Three0</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card one1</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card two1</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="col-md-4 mb-5">-->
+        <!--            <div class="card h-100">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h2 class="card-title">Card three</h2>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+    </div>
+
+</div>
+</body>
+</html>

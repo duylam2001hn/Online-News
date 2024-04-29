@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-light " th:fragment="header" >
+<!--  floating-menu-->
+  <div class=" container px-5   " >
+    <a class="navbar-brand" th:href="@{'/News01/home'}">News 01</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class=" collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="  navbar-nav me-auto mb-2 mb-lg-0 ">
+        <li class="nav-item"><a class="nav-link" th:href="@{'/News01/home'}">Trang chủ</a></li>
+
+        <li class="nav-item" th:each="item:${category}"><a class="nav-link" th:href="@{'/News01/master/'+${item.link_name}}" th:text="${item.name}"></a></li>
+
+<!--        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>-->
+
+      </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <form th:action="@{'/News01/search'}">
+            <div class="search-box">
+
+            <input type="text" name="search"style="width: 70%"><button type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+            </div>
+          </form>
+
+        </li>
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" th:href="@{'/News01/customer/register'}">-->
+
+<!--          </a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+
+<!--        </li>-->
+        <li class="nav-item">
+          <a th:if="${#httpSession.getAttribute('CustomerLogin')==null}" class="nav-link" th:href="@{'/News01/customer/register'}" title='Đăng ký'>
+            <span ><i class="fa fa-edit" style="font-size:20px"></i></span>
+
+          </a>
+<!--          th:text="${customerLog}-->
+<!--          th:text="${#httpSession.getAttribute('CustomerLogin')}"-->
+          <span th:if="${#httpSession.getAttribute('CustomerLogin')!=null}" class="nav-link" th:text="${#httpSession.getAttribute('CustomerLogin')}"></span>
+        </li>
+        <li class="nav-item">
+          <a th:if="${#httpSession.getAttribute('CustomerLogin')==null}" class="nav-link" th:href="@{'/News01/customer/login'}" title='Đăng nhập'>
+          <span ><i class="fa fa-address-book" style="font-size:20px"></i></span>
+
+          </a>
+          <a th:if="${#httpSession.getAttribute('CustomerLogin')!=null}" class="nav-link" th:href="@{'/News01/customer/logout'}" title='Logout'>
+            <span  th:text="Logout"></span>
+          </a>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

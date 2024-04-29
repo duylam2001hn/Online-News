@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{decorators/adminLayout}"
+>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Danh sách thể loại</title>
+</head>
+
+<body>
+<div class="main-content" layout:fragment="content" id="layoutSidenav_content">
+
+
+        <div class="main-content-inner">
+<!--            <div class="card-header" id="breadcrumbs">-->
+<!--                <i class="fas fa-table me-1"></i> <h4>Danh sách bài viết</h4>-->
+<!--            </div>-->
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="fa fa-table " style="font-size: 24px"></i>
+                        <span style="font-size: 24px">Danh sách thể loại</span>
+<!--                        <a href="#">Trang chủ</a>-->
+                    </li>
+                </ul>
+                <!-- /.breadcrumb -->
+            </div>
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="widget-box table-filter">
+                            <div class="table-btn-controls">
+                                <div class="pull-right tableTools-container">
+                                    <div class="dt-buttons btn-overlap btn-group">
+                                        <a flag="info"
+                                           class="dt-button buttons-colvis btn btn-white btn-primary btn-bold" data-toggle="tooltip"
+                                           title='Thêm bài viết' th:href="@{/admin/category/add}">
+															<span>
+																<i class="fa fa-plus-circle" style="color:yellowgreen;font-size: 20px"></i>
+															</span>
+                                        </a>
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-responsive">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên thể loại</th>
+                                            <th>Tên đường dẫn</th>
+                                            <th>Thể loại cha</th>
+                                            <th>Thao tác</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="list_table">
+
+                                            <tr th:each="item:${categoryList}" >
+                                                <td th:text="${item.getId()}"></td>
+                                                <td th:text="${item.getName()}"></td>
+                                                <td th:text="${item.getLink_name()}"></td>
+
+                                                <td th:text="${item.getParent_id()}">
+
+                                                </td>
+                                                <td> <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                                        title="Cập nhật thể loại" th:href="@{'/admin/category/get/'+${item.getId()}}"><span class="far fa-edit"></span>
+                                                </a></td>
+                                                <td>
+                                                    <input type="checkbox" class="choose" name="choose" th:value="${item.getId()}">
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        $(document).ready(function () {
+
+           lockAccount();
+
+        });
+        
+        
+
+
+        function lockAccount() {
+            $("#btnLock").click(function () {
+                var ListId = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListId.push(this.value);
+
+
+                })
+
+                    $.ajax({
+                        url:"/api/admin/customer/lock/",
+                        type:"GET",
+                        dataType:"json",
+                        contentType:"application/json",
+                        data:{
+                            listIdCheck : ListId.join(","),
+                        }
+
+                        ,
+
+                        success: function (data) {
+                            let result = data.result;
+                            if(data.status == "lock"){
+
+                                alert(" Đã khóa tài khoản thành công ");
+                                LoadData();
+                            }
+                        }
+
+                    })
+
+                    alert("id New all:" + ListId.join(", "));
+
+
+
+            });
+        }
+
+        function LoadData(){
+            $.ajax({
+                url:"/api/admin/customer/list/",
+                type:"GET",
+                dataType:"json",
+                beforeSend:function(){
+                    $("#list_table").html("<img width='100px' "+"src='https://acegif.com/wp-content/uploads/loading-23.gif' />")
+                },
+                success:function(data){
+
+
+                    setTimeout(function () {
+                            $("#list_table").html(data.map(function(Customer) {
+                                let Status = "";
+                                if(Customer.status==0){
+                                    Status = `<p>Đang hoạt động</p>`;
+                                }else if(Customer.status==1){
+                                    Status = `<p>Đã khóa</p>`;
+                                }
+
+
+                                return `<tr>`+
+                                    `<td>`+
+                                    `${Customer.id}`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `${Customer.email}`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `${Customer.nickname}`+
+                                    `</td>`+
+
+                                    `<td>`+
+                                    `
+                                    ${Status}
+                                    `+
+                                    `</td>`+
+                                    `<td>`+
+                                    `<input type="checkbox" class="choose" name="choose" value="${Customer.id}">`+
+                                    `</td>`+
+
+                                    `</tr>`
+                            }));
+                        }
+
+
+                        ,100)
+                }
+
+
+
+
+
+            });
+        }
+
+
+    </script>
+</div>
+<!-- /.main-content -->
+
+
+
+</body>
+
+</html>

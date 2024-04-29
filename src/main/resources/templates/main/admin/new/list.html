@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{decorators/adminLayout}"
+>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Danh sách bài viết</title>
+</head>
+
+<body>
+<div class="main-content" layout:fragment="content" id="layoutSidenav_content">
+
+
+        <div class="main-content-inner">
+<!--            <div class="card-header" id="breadcrumbs">-->
+<!--                <i class="fas fa-table me-1"></i> <h4>Danh sách bài viết</h4>-->
+<!--            </div>-->
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="fa fa-table " style="font-size: 24px"></i>
+                        <span style="font-size: 24px">Hiển thị trang chủ cho thể loại lớn</span>
+<!--                        <a href="#">Trang chủ</a>-->
+                    </li>
+                    <li style="margin-left: 400px">
+                        <i class="fa fa-table " style="font-size: 24px"></i>
+                        <span style="font-size: 24px">Hiển thị trang chủ cho thể loại nhỏ</span>
+                        <!--                        <a href="#">Trang chủ</a>-->
+                    </li>
+                </ul>
+                <!-- /.breadcrumb -->
+            </div>
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="widget-box table-filter">
+                            <div class="table-btn-controls">
+                                <div class="pull-right tableTools-container">
+                                    <div class="dt-buttons btn-overlap btn-group">
+                                        <span id="form" hidden="hidden">listPerCate</span>
+                                        <a flag="info"
+                                           class="dt-button buttons-colvis btn btn-white btn-primary btn-bold" data-toggle="tooltip"
+                                           title='Thêm bài viết' th:href="@{/admin/news/add}">
+															<span>
+																<i class="fa fa-plus-circle" style="color:yellowgreen;font-size: 20px"></i>
+															</span>
+                                        </a>
+                                        <button id="btnDelete" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Xóa bài viết'>
+																<span>
+																	<i class="fa fa-remove" style="color:red;font-size: 20px"></i>
+																</span>
+                                        </button>
+
+                                        <button id="setFeatureBig" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Bài viết to nổi bật'>
+																<span>
+																	<i class="fa fa-star" style="color:navajowhite;font-size: 20px"></i>
+																</span>
+                                        </button>
+                                        <button id="setFeatureSmall" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='2 bài viết cột phải nổi bật'>
+																<span>
+																	<i class="fa fa-object-group" style="color:navajowhite;font-size: 20px"></i>
+																</span>
+                                        </button>
+                                        <button id="setFeature4" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='4 bài viết nổi bật nằm dưới'>
+																<span>
+																	<i class="fa fa-newspaper" style="color:navajowhite;font-size: 20px"></i>
+																</span>
+                                        </button>
+
+
+
+                                        <button id="setNull" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Thiết lập trạng thái trống'>
+																<span>
+																	<i class="fa fa-circle" style="color:navajowhite;font-size: 20px"></i>
+																</span>
+                                        </button>
+
+
+
+
+
+
+                                    </div>
+                                    <div class="dt-buttons btn-overlap btn-group">
+                                       <select class="form-control" id="cateParent">
+                                           <option disabled="disabled" selected="true">Thể loại</option>
+                                           <option th:each="item:${cateParent}" th:text="${item.getName()}" th:value="${item.getId()}"></option>
+
+                                       </select>
+
+                                    </div>
+
+
+                                    <div class="dt-buttons btn-overlap btn-group" style="margin-left: 100px; margin-right:100px">
+                                            <input class="form-control" type="text" placeholder="Search for..."
+                                                   aria-label="Search for..." aria-describedby="btnNavbarSearch" id="Search" />
+                                            <button class="btn btn-primary" id="btnNavbarSearch" type="button">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                    </div>
+
+                                    <div class="dt-buttons btn-overlap btn-group">
+                                        <select class="form-control" id="cateChild">
+                                            <option disabled="disabled" selected="true">Thể loại nhỏ</option>
+                                            <option th:each="item:${categoryDefault}" th:text="${item.getName()}" th:value="${item.getId()}"></option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="dt-buttons btn-overlap btn-group">
+                                        <button id="setFeatureBigChild" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Bài viết to nổi bật'>
+																<span>
+																	<i class="fa fa-star" style="color:navajowhite;font-size: 20px"></i>
+																</span>
+                                        </button>
+                                        <button id="setFeatureSmallChild" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='2 bài viết cột phải nổi bật'>
+																<span>
+																	<i class="fa fa-object-group" style="color:navajowhite;font-size: 20px"></i>
+																</span>
+                                        </button>
+                                        <button id="setFeature4Child" type="button"
+                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='4 bài viết nổi bật nằm dưới'>
+																<span>
+																	<i class="fa fa-newspaper" style="color:navajowhite;font-size: 20px"></i>
+																</span>
+                                        </button>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-xs-12">
+                                <div class="table-responsive">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Thể loại</th>
+                                            <th>Tên bài viết</th>
+                                            <th>Người viết</th>
+                                            <th>Mô tả ngắn</th>
+                                            <th>Nổi bật</th>
+                                            <th>Thao tác</th>
+                                            <th>Hình đại diện</th>
+
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="list_new_table">
+
+                                            <tr th:each="item:${newsList}" >
+                                                <td th:text="${item.getId()}"></td>
+                                                <td th:text="${item.category.getName()}"></td>
+                                                <td th:text="${item.getTitle()}"></td>
+                                                <td th:text="${item.getUser().getEmail()}"></td>
+                                                <td th:text="${item.getShortDescription()}"></td>
+
+
+                                                <td>
+                                                    <p th:if="${item.getFlag()}==0">Trạng thái trống</p>
+                                                    <p th:if="${item.getFlag()}==1" style="background-color: indianred">Tin nổi bật lớn</p>
+                                                    <p th:if="${item.getFlag()}==2" style="background-color: deepskyblue" >2 tin nổi bật thể loại lớn</p>
+                                                    <p th:if="${item.getFlag()}==4" style="background-color: forestgreen">4 tin nổi bật thể loại lớn</p>
+                                                    <p th:if="${item.getFlag()}==10" style="background-color: mediumorchid">Tin nổi bật lớn thể loại nhỏ</p>
+                                                    <p th:if="${item.getFlag()}==11" style="background-color: lightslategray" >2 tin nổi bật thể loại nhỏ</p>
+                                                    <p th:if="${item.getFlag()}==12" style="background-color: mediumseagreen">4 tin nổi bật thể loại nhỏ</p>
+                                                </td>
+
+                                                <td>
+                                                    <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                                       title="Cập nhật bài viết" th:href="@{'/admin/news/get/list/'+${item.getId()}}"><span class="far fa-edit"></span>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <img th:src=" @{${item.getThumbnail()}}" style="width:100px;height:100px">
+                                                </td>
+
+                                                <td>
+                                                    <input type="checkbox" class="choose" name="choose" th:value="${item.getId()}">
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        <span id="totalItem" th:text="'Tổng tin tức: '+${totalItem}"></span>
+                                        <span id="totalPage" th:text="'Trang hiện tại-'+${currentPage}+' trong-'+${totalPage}"></span>
+<!--                                        ${#numbers.sequence(1,totalPage)}-->
+
+                                        <span id="page">
+                                                <span th:each="item:${#numbers.sequence(1,totalPage)}">
+                                                    <a th:href="@{'/admin/news/page/CateMaster/'+${item}}" th:text="${item}"></a>
+                                                </span>
+                                        </span>
+
+<!--                                        Sport-->
+                                        <span hidden="hidden" id="sport">
+                                           <span th:each="item:${#numbers.sequence(1,totalPageSport)}" >
+                                                    <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+                                        </span>
+
+                                        <span hidden="hidden" id="book">
+                                            <span th:each="item:${#numbers.sequence(1,totalPageBooks)}" >
+                                                <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+                                        </span>
+
+                                        <span hidden="hidden" id="Buss">
+                                            <span th:each="item:${#numbers.sequence(1,totalPageBuss)}" >
+                                                <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+                                        </span>
+
+                                        <span hidden="hidden" id="Entertain">
+                                            <span th:each="item:${#numbers.sequence(1,totalPageEntertain)}" >
+                                                    <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+                                        </span>
+
+                                        <span hidden="hidden" id="Tech">
+                                            <span th:each="item:${#numbers.sequence(1,totalPageTech)}" >
+                                                <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+                                        </span>
+
+                                        <span hidden="hidden" id="Life">
+                                            <span th:each="item:${#numbers.sequence(1,totalPageLife)}" >
+                                                    <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+
+                                        </span>
+
+                                        <span hidden="hidden" id="Social">
+                                            <span th:each="item:${#numbers.sequence(1,totalPageSocial)}" >
+                                                    <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+                                        </span>
+
+                                        <span hidden="hidden" id="Healthy">
+                                            <span th:each="item:${#numbers.sequence(1,totalPageHealthy)}" >
+                                                    <span th:text="${item}" class="CatePage"></span>
+                                           </span>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        $(document).ready(function () {
+            FeatureBig();
+            Feature4Under();
+            Feature2Small();
+            LoadListByCateParent();
+            LoadBySearch();
+            SetStatusNull();
+            DeleteNew();
+            CatchCate();
+            CatchPagePerCate();
+            getCategory();
+            FeatureBigChild();
+            Feature2SmallChild();
+            Feature4UnderChild();
+        });
+
+
+        function FeatureBigChild() {
+            $("#setFeatureBigChild").click(function () {
+                var ListNews = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListNews.push(this.value);
+
+
+                })
+                if(ListNews.length ==1){
+                    // location.href= "/News01/featureBig/"+ListNews;
+
+
+                    $.ajax({
+                        url:"/api/admin/news/child/featureBig/"+ListNews,
+                        type:"GET",
+                        dataType:"json",
+                        contentType:"application/json",
+
+                        success: function (data) {
+                            if(data.status == "Exist"){
+
+                                alert("Thiết lập tin tức nổi bật lớn thành công");
+                                LoadData();
+                            }
+                        }
+
+                    })
+
+                    alert("id New all:" + ListNews.join(", "));
+                }else {
+                    alert("Bạn phải chọn ít nhất 1 tin tức");
+
+                }
+
+
+            })
+        }
+
+        function Feature2SmallChild() {
+            $("#setFeatureSmallChild").click(function () {
+                var ListNews = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListNews.push(this.value);
+
+
+                })
+                if(ListNews.length >0){
+
+
+                    $.ajax({
+                        url:"/api/admin/news/child/featureSmall/",
+                        type:"GET",
+                        dataType:"json",
+                        contentType:"application/json",
+                        data:{
+                            listNews : ListNews.join(","),
+                        }
+
+                        ,
+
+                        success: function (data) {
+                            let result = data.result;
+                            if(data.status == "Exist2"){
+
+                                alert("Thiết lập 2 tin tức nổi bật nhỏ thành công");
+                                LoadData();
+                            }else{
+                                alert(result);
+                                alert("Vui lòng làm mới trang web");
+
+
+                            }
+                        }
+
+                    })
+
+                    alert("id New all:" + ListNews.join(", "));
+                }else {
+                    alert("Bạn phải chọn ít nhất 1 tin tức");
+
+                }
+
+
+            })
+        }
+
+        function Feature4UnderChild() {
+            $("#setFeature4Child").click(function () {
+                var ListNews = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListNews.push(this.value);
+
+
+                })
+                if(ListNews.length >0){
+
+
+                    $.ajax({
+                        url:"/api/admin/news/child/featureFour/",
+                        type:"GET",
+                        dataType:"json",
+                        contentType:"application/json",
+                        data:{
+                            listNews : ListNews.join(","),
+                        }
+
+                        ,
+
+                        success: function (data) {
+                            let result = data.result;
+                            if(data.status == "Exist4"){
+
+                                alert("Thiết lập 4 tin tức nổi bật dưới thành công");
+                                LoadData();
+                            }else{
+                                alert(result);
+                                LoadData();
+
+
+                            }
+                        }
+
+                    })
+
+                    alert("id New all:" + ListNews.join(", "));
+                }else {
+                    alert("Bạn phải chọn ít nhất 1 tin tức");
+
+                }
+
+
+            })
+        }
+
+        function CatchCate() {
+            let cate_id;
+            $('#cateParent').change(function () {
+               cate_id = $(this).val();
+
+                console.log(cate_id);
+
+                if(cate_id==1){
+
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#sport').removeAttr("hidden");
+                }else if(cate_id==2){
+
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#book').removeAttr("hidden");
+
+                }else if(cate_id==3){
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#Buss').removeAttr("hidden");
+
+                }else if(cate_id==4){
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#Tech').removeAttr("hidden");
+
+                }else if(cate_id==5){
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#Entertain').removeAttr("hidden");
+
+                }else if(cate_id==6){
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#Life').removeAttr("hidden");
+
+                }else if(cate_id==7){
+
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#Social').removeAttr("hidden");
+                }else if(cate_id==8){
+
+                    $('#page').attr("hidden","hidden");
+                    DeletePage();
+                    $('#Healthy').removeAttr("hidden");
+                }
+
+
+
+            });
+        }
+
+        function DeletePage(){
+
+            $('#sport').attr("hidden","hidden");
+            $('#Buss').attr("hidden","hidden");
+            $('#Social').attr("hidden","hidden");
+            $('#Tech').attr("hidden","hidden");
+            $('#Entertain').attr("hidden","hidden");
+            $('#book').attr("hidden","hidden");
+            $('#Life').attr("hidden","hidden");
+            $('#Healthy').attr("hidden","hidden");
+        }
+
+        function CatchPagePerCate() {
+            $('.CatePage').click(function () {
+                let cateParent_id = $('#cateParent').val()
+
+                $('.CatePage').removeAttr("choose");
+                $('.CatePage').removeClass("add-focus");
+
+                $(this).addClass("add-focus");
+
+                let form = $('#form').text();
+                let catePage = $(this).text();
+                $(this).attr("choose",catePage);
+
+                var idCatePage =[];
+
+                idCatePage = [cateParent_id,catePage];
+
+
+
+                $.ajax({
+                    url:"/api/admin/news/page/"+form,
+                    type:"GET",
+                    dataType:"json",
+                    contentType:"application/json",
+                    data:{
+                        idCatePage : idCatePage.join(","),
+                    }
+
+                    ,
+
+                    success: function (data) {
+                        $("#list_new_table").html(data.map(function(News) {
+                            let Flags = "";
+                            if(News.flag==0){
+                                Flags = `<p>Trạng thái trống</p>`;
+                            }else if(News.flag==1){
+                                Flags = `<p style="background-color: indianred">Tin nổi bật lớn</p>`;
+                            }else if(News.flag==2){
+                                Flags = `<p style="background-color: deepskyblue">2 tin nổi bật thể loại lớn</p>`;
+                            }else if(News.flag==4){
+                                Flags = `<p style="background-color: forestgreen">4 tin nổi bật thể loại lớn</p>`;
+                            }else if(News.flag==10){
+                                Flags = `<p style="background-color: mediumorchid">Tin nổi bật lớn thể loại nhỏ</p>`;
+                            }else if(News.flag==11){
+                                Flags = `<p style="background-color: lightslategray">2 tin nổi bật thể loại nhỏ</p>`;
+                            }else if(News.flag==12){
+                                Flags = `<p style="background-color: mediumseagreen">4 tin nổi bật thể loại nhỏ</p>`;
+                            }
+
+
+                            return `<tr>`+
+                                `<td>`+
+                                `${News.id}`+
+                                `</td>`+
+                                `<td>`+
+                                `${News.category.name}`+
+                                `</td>`+
+                                `<td>`+
+                                `${News.title}`+
+                                `</td>`+
+                                `<td>`+
+                                `${News.user.email}`+
+                                `</td>`+
+                                `<td>`+
+                                `${News.shortDescription}`+
+                                `</td>`+
+                                `<td>`+
+
+                                `
+                                    ${Flags}
+
+                                    `+
+                                `</td>`+
+                                `<td>`+
+                                `<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                                       title="Cập nhật bài viết" href="/admin/news/get/list/${News.id}"><span class="far fa-edit"></span>
+                                                    </a>`+
+                                `</td>`+
+                                `<td>`+
+                                `<img src="${News.thumbnail}" style="width:100px;height:100px">`+
+                                `</td>`+
+                                `<td>`+
+                                `<input type="checkbox" class="choose" name="choose" value="${News.id}">`+
+                                `</td>`+
+
+                                `</tr>`
+                        }));
+                    }
+
+
+                })
+
+            })
+        }
+
+
+        function FeatureBig() {
+            $("#setFeatureBig").click(function () {
+                var ListNews = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListNews.push(this.value);
+
+
+                })
+                if(ListNews.length ==1){
+                    // location.href= "/News01/featureBig/"+ListNews;
+
+
+                    $.ajax({
+                        url:"/api/admin/news/parent/featureBig/"+ListNews,
+                        type:"GET",
+                        dataType:"json",
+                        contentType:"application/json",
+
+                        success: function (data) {
+                            if(data.status == "Exist"){
+
+                                alert("Thiết lập tin tức nổi bật lớn thành công");
+                                LoadData();
+                            }
+                        }
+
+                    })
+
+                    alert("id New all:" + ListNews.join(", "));
+                }else {
+                    alert("Bạn phải chọn ít nhất 1 tin tức");
+
+                }
+
+
+        })
+        }
+
+        function Feature2Small() {
+            $("#setFeatureSmall").click(function () {
+                var ListNews = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListNews.push(this.value);
+
+
+                })
+                if(ListNews.length >0){
+
+
+                    $.ajax({
+                        url:"/api/admin/news/parent/featureSmall/",
+                        type:"GET",
+                        dataType:"json",
+                        contentType:"application/json",
+                        data:{
+                            listNews : ListNews.join(","),
+                        }
+
+                        ,
+
+                        success: function (data) {
+                            let result = data.result;
+                            if(data.status == "Exist2"){
+
+                                alert("Thiết lập 2 tin tức nổi bật nhỏ thành công");
+                                LoadData();
+                            }else{
+                                alert(result);
+                                alert("Vui lòng làm mới trang web");
+
+
+                            }
+                        }
+
+                    })
+
+                    alert("id New all:" + ListNews.join(", "));
+                }else {
+                    alert("Bạn phải chọn ít nhất 1 tin tức");
+
+                }
+
+
+            })
+        }
+
+        function Feature4Under() {
+            $("#setFeature4").click(function () {
+                var ListNews = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListNews.push(this.value);
+
+
+                })
+                if(ListNews.length >0){
+
+
+                    $.ajax({
+                        url:"/api/admin/news/parent/featureFour/",
+                        type:"GET",
+                        dataType:"json",
+                        contentType:"application/json",
+                        data:{
+                            listNews : ListNews.join(","),
+                        }
+
+                        ,
+
+                        success: function (data) {
+                            let result = data.result;
+                            if(data.status == "Exist4"){
+
+                                alert("Thiết lập 4 tin tức nổi bật dưới thành công");
+                                LoadData();
+                            }else{
+                                alert(result);
+                                LoadData();
+
+
+                            }
+                        }
+
+                    })
+
+                    alert("id New all:" + ListNews.join(", "));
+                }else {
+                    alert("Bạn phải chọn ít nhất 1 tin tức");
+
+                }
+
+
+            })
+        }
+
+        function LoadData(){
+            let cateParentId = $('#cateParent').val();
+            let form = $('#form').text();
+
+            let CurrentPage = $('.add-focus').attr("choose");
+
+            let PageDefault = 1;
+
+            if(CurrentPage>1)
+            {
+                PageDefault = CurrentPage;
+            }
+
+            if(cateParentId == null){
+                location.reload();
+            }else{
+
+            $.ajax({
+                url:"/api/admin/news/list/"+cateParentId,
+                type:"GET",
+                dataType:"json",
+                contentType:"application/json",
+                data: {
+                    form : form,
+                    currentPage: PageDefault
+                },
+                beforeSend:function(){
+                    $("#list_new_table").html("<img width='100px' "+"src='https://acegif.com/wp-content/uploads/loading-23.gif' />")
+                },
+                success:function(data){
+
+
+                    setTimeout(function () {
+                            $("#list_new_table").html(data.map(function(News) {
+                                let Flags = "";
+                                if(News.flag==0){
+                                    Flags = `<p>Trạng thái trống</p>`;
+                                }else if(News.flag==1){
+                                    Flags = `<p style="background-color: indianred">Tin nổi bật lớn</p>`;
+                                }else if(News.flag==2){
+                                    Flags = `<p style="background-color: deepskyblue">2 tin nổi bật thể loại lớn</p>`;
+                                }else if(News.flag==4){
+                                    Flags = `<p style="background-color: forestgreen">4 tin nổi bật thể loại lớn</p>`;
+                                }else if(News.flag==10){
+                                    Flags = `<p style="background-color: mediumorchid">Tin nổi bật lớn thể loại nhỏ</p>`;
+                                }else if(News.flag==11){
+                                    Flags = `<p style="background-color: lightslategray">2 tin nổi bật thể loại nhỏ</p>`;
+                                }else if(News.flag==12){
+                                    Flags = `<p style="background-color: mediumseagreen">4 tin nổi bật thể loại nhỏ</p>`;
+                                }
+
+
+                                return `<tr>`+
+                                    `<td>`+
+                                    `${News.id}`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `${News.category.name}`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `${News.title}`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `${News.user.email}`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `${News.shortDescription}`+
+                                    `</td>`+
+                                    `<td>`+
+
+                                    `
+                                    ${Flags}
+
+                                    `+
+                                    `</td>`+
+                                    `<td>`+
+                                    `<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                                       title="Cập nhật bài viết" href="/admin/news/get/list/${News.id}"><span class="far fa-edit"></span>
+                                                    </a>`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `<img src="${News.thumbnail}" style="width:100px;height:100px">`+
+                                    `</td>`+
+                                    `<td>`+
+                                    `<input type="checkbox" class="choose" name="choose" value="${News.id}">`+
+                                    `</td>`+
+
+                                    `</tr>`
+                            }));
+                        }
+
+
+                        ,100)
+                }
+
+
+
+
+
+            });
+        }
+    }
+
+        function LoadListByCateParent(){
+            $("#cateParent").change(function () {
+                let idCate = $(this).val();
+
+                $.ajax({
+                    url:"/api/admin/news/list/cate/"+idCate,
+                    type:"GET",
+                    dataType:"json",
+                    beforeSend:function(){
+                        $("#list_new_table").html("<img width='100px' "+"src='https://acegif.com/wp-content/uploads/loading-23.gif' />")
+                    },
+                    success:function(data){
+
+
+                        setTimeout(function () {
+                                $("#list_new_table").html(data.result.map(function(News) {
+
+
+
+                                    let Flags = "";
+                                    if(News.flag==0){
+                                        Flags = `<p>Trạng thái trống</p>`;
+                                    }else if(News.flag==1){
+                                        Flags = `<p style="background-color: indianred">Tin nổi bật lớn</p>`;
+                                    }else if(News.flag==2){
+                                        Flags = `<p style="background-color: deepskyblue">2 tin nổi bật thể loại lớn</p>`;
+                                    }else if(News.flag==4){
+                                        Flags = `<p style="background-color: forestgreen">4 tin nổi bật thể loại lớn</p>`;
+                                    }else if(News.flag==10){
+                                        Flags = `<p style="background-color: mediumorchid">Tin nổi bật lớn thể loại nhỏ</p>`;
+                                    }else if(News.flag==11){
+                                        Flags = `<p style="background-color: lightslategray">2 tin nổi bật thể loại nhỏ</p>`;
+                                    }else if(News.flag==12){
+                                        Flags = `<p style="background-color: mediumseagreen">4 tin nổi bật thể loại nhỏ</p>`;
+                                    }
+
+
+                                    return `<tr>`+
+                                        `<td>`+
+                                        `${News.id}`+
+                                        `</td>`+
+                                        `<td>`+
+                                        `${News.category.name}`+
+                                        `</td>`+
+                                        `<td>`+
+                                        `${News.title}`+
+                                        `</td>`+
+                                        `<td>`+
+                                        `${News.user.email}`+
+                                        `</td>`+
+                                        `<td>`+
+                                        `${News.shortDescription}`+
+                                        `</td>`+
+                                        `<td>`+
+
+                                        `
+                                    ${Flags}
+
+                                    `+
+                                        `</td>`+
+                                        `<td>`+
+                                        `<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                                       title="Cập nhật bài viết" href="/admin/news/get/list/${News.id}"><span class="far fa-edit"></span>
+                                                    </a>`+
+                                        `</td>`+
+                                        `<td>`+
+                                        `<img src="${News.thumbnail}" style="width:100px;height:100px">`+
+                                        `</td>`+
+                                        `<td>`+
+                                        `<input type="checkbox" class="choose" name="choose" value="${News.id}">`+
+                                        `</td>`+
+
+                                        `</tr>`
+                                }));
+
+
+
+                                $('#totalItem').html("Tổng tin tức: "+data.result2);
+                                $('#totalPage').html("Tổng trang: "+data.result1+"|");
+
+
+                            }
+
+
+                            ,100)
+                    }
+
+
+
+
+
+                });
+            })
+        }
+
+
+
+        function LoadBySearch(){
+            $("#Search").keyup(function () {
+                let search = $(this).val();
+
+                if(search !=""){
+                    $.ajax({
+                        url:"/api/admin/news/search/perCate",
+                        type:"POST",
+                        dataType:"json",
+                        data:{
+                          input:search
+                        },
+                        beforeSend:function(){
+                            $("#list_new_table").html("<img width='100px' "+"src='https://acegif.com/wp-content/uploads/loading-23.gif' />")
+                        },
+                        success:function(data){
+
+
+                            setTimeout(function () {
+                                    $("#list_new_table").html(data.map(function(News) {
+
+
+                                        let Flags = "";
+                                        if(News.flag==0){
+                                            Flags = `<p>Trạng thái trống</p>`;
+                                        }else if(News.flag==1){
+                                            Flags = `<p style="background-color: indianred">Tin nổi bật lớn</p>`;
+                                        }else if(News.flag==2){
+                                            Flags = `<p style="background-color: deepskyblue">2 tin nổi bật thể loại lớn</p>`;
+                                        }else if(News.flag==4){
+                                            Flags = `<p style="background-color: forestgreen">4 tin nổi bật thể loại lớn</p>`;
+                                        }else if(News.flag==10){
+                                            Flags = `<p style="background-color: mediumorchid">Tin nổi bật lớn thể loại nhỏ</p>`;
+                                        }else if(News.flag==11){
+                                            Flags = `<p style="background-color: lightslategray">2 tin nổi bật thể loại nhỏ</p>`;
+                                        }else if(News.flag==12){
+                                            Flags = `<p style="background-color: mediumseagreen">4 tin nổi bật thể loại nhỏ</p>`;
+                                        }
+
+
+                                        return `<tr>`+
+                                            `<td>`+
+                                            `${News.id}`+
+                                            `</td>`+
+                                            `<td>`+
+                                            `${News.category.name}`+
+                                            `</td>`+
+                                            `<td>`+
+                                            `${News.title}`+
+                                            `</td>`+
+                                            `<td>`+
+                                            `${News.user.email}`+
+                                            `</td>`+
+                                            `<td>`+
+                                            `${News.shortDescription}`+
+                                            `</td>`+
+                                            `<td>`+
+
+                                            `
+                                    ${Flags}
+
+                                    `+
+                                            `</td>`+
+                                            `<td>`+
+                                            `<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                                       title="Cập nhật bài viết" href="/admin/news/get/list/${News.id}"><span class="far fa-edit"></span>
+                                                    </a>`+
+                                            `</td>`+
+                                            `<td>`+
+                                            `<img src="${News.thumbnail}" style="width:100px;height:100px">`+
+                                            `</td>`+
+                                            `<td>`+
+                                            `<input type="checkbox" class="choose" name="choose" value="${News.id}">`+
+                                            `</td>`+
+
+                                            `</tr>`
+                                    }));
+
+
+
+                                }
+
+
+                                ,100)
+                        }
+
+
+
+
+
+                    });
+                }else {
+                    location.reload();
+                }
+            })
+        }
+
+        function SetStatusNull() {
+            $("#setNull").click(function () {
+                var ListId = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListId.push(this.value);
+
+
+                })
+
+                $.ajax({
+                    url:"/api/admin/news/setNull/",
+                    type:"GET",
+                    dataType:"json",
+                    contentType:"application/json",
+                    data:{
+                        listIdCheck : ListId.join(","),
+                    }
+
+                    ,
+
+                    success: function (data) {
+
+                        if(data.status == "Check"){
+
+                            alert("Sửa trạng thái trống thành công");
+                            LoadData();
+                        }
+                    }
+
+                })
+
+                alert("id New all:" + ListId.join(", "));
+
+
+
+            })
+        }
+
+        function DeleteNew() {
+            $("#btnDelete").click(function () {
+                if(confirm("Bạn có chắc muốn xóa những bài viết này")==true){
+
+                var ListId = [];
+                $('input[name="choose"]:checked').each(function () {
+                    ListId.push(this.value);
+
+
+                })
+
+                $.ajax({
+                    url:"/api/admin/news/delete/",
+                    type:"GET",
+                    dataType:"json",
+                    contentType:"application/json",
+                    data:{
+                        listIdCheck : ListId.join(","),
+                    }
+
+                    ,
+
+                    success: function (data) {
+
+                        if(data.status == "Check"){
+
+                            alert("Xóa thành công");
+                            LoadData();
+                        }
+                    }
+
+                })
+
+                alert("id New all:" + ListId.join(", "));
+
+                }else{
+                    alert("Xóa thất bại");
+                }
+
+            })
+
+
+        }
+
+        function getCategory() {
+
+            $("#cateParent").change(function () {
+
+                let idParent = $(this).val();
+                $.ajax({
+                    url:"/api/admin/news/category/"+idParent,
+                    type:"GET",
+                    dataType:"json",
+                    contentType:"application/json",
+
+                    success: function (data) {
+                        if(data.status =="Success"){
+                            console.log(data);
+                            $("#cateChild").html(data.result);
+
+                        }
+
+
+                    }
+
+                })
+
+            })
+        }
+
+
+
+
+
+
+    </script>
+</div>
+<!-- /.main-content -->
+
+
+
+</body>
+
+</html>

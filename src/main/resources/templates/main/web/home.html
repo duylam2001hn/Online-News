@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{decorators/webLayout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Trang chủ</h1>
+<h1>Menu</h1>
+<div class="container px-4 px-lg-5" layout:fragment="content">
+    <!-- Heading Row-->
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-2">
+            <div th:each="item:${newsList5}">
+
+                <div>
+                    <a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="${item.getThumbnail()}" class="img-feature-small-home-left"></a>
+                </div>
+                <div style="width: 10rem">
+                    <p><a th:href="@{'/News01/get/'+${item.getId()}}" th:text="${item.getTitle()}" class="title-small-home-left"></a></p>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-7" th:each="item:${newsList7}">
+            <div>
+                <a th:href="@{'/News01/get/'+${item.getId()}}"><img class="img-feature-big-home" th:src="${item.getThumbnail()}"></a>
+            </div>
+            <div class="content-feature">
+                <p><a th:href="@{'/News01/get/'+${item.getId()}}" class="title" th:text="${item.getTitle()}"></a></p>
+                <p th:text="${item.getShortDescription()}"></p>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div th:each="item:${newsList3}">
+
+                <div>
+                    <a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="${item.getThumbnail()}" class="img-feature-small-home-right"></a>
+                </div>
+                <div style="width: 20rem">
+                    <p><a th:href="@{'/News01/get/'+${item.getId()}}" th:text="${item.getTitle()}" class="title-small-home-right"></a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Call to Action-->
+    <div> <h2>Books</h2></div>
+
+    <div class="row gx-4 gx-lg-5">
+
+        <div class="col-lg-14">
+
+            <div class="slider reponsive" >
+
+                <div  class="news-feature-line" th:each="item:${bookList}">
+                    <div> <a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="@{${item.getThumbnail()}}" class ="thumbnail-img"></a></div>
+                    <div class="div-feature" style="width: 240px; "><a th:href="@{'/News01/get/'+${item.getId()}}" th:text="${item.getTitle()}"></a></div>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+<!--    <div class="card text-white bg-secondary my-5 py-4 text-center">-->
+
+<!--        <div class="slideshow-container">-->
+
+<!--            &lt;!&ndash; Full-width images with number and caption text &ndash;&gt;-->
+<!--            <div class="mySlides fade" th:each="item:${bookList}">-->
+<!--                <div th:text="${item.getTitle()}"></div>-->
+<!--                <img th:src="@{${item.getThumbnail()}}" class="img-feature-small">-->
+<!--                <div class="text">Caption Text</div>-->
+<!--            </div>-->
+
+
+
+<!--            &lt;!&ndash; Next and previous buttons &ndash;&gt;-->
+<!--            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
+<!--            <a class="next" onclick="plusSlides(1)">&#10095;</a>-->
+<!--        </div>-->
+<!--        <br>-->
+
+<!--        &lt;!&ndash; The dots/circles &ndash;&gt;-->
+<!--        <div style="text-align:center">-->
+<!--            <span class="dot" onclick="currentSlide(1)"></span>-->
+<!--            <span class="dot" onclick="currentSlide(2)"></span>-->
+<!--            <span class="dot" onclick="currentSlide(3)"></span>-->
+<!--        </div>-->
+<!--&lt;!&ndash;        <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;            <p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>&ndash;&gt;-->
+<!--    </div>-->
+    <!-- Content Row-->
+    <div class="row gx-4 gx-lg-5">
+
+
+<!--        <div class="col-left col-small">-->
+
+
+        <div class="col-md-8 mb-5" style="margin-top: 50px">
+
+                <h3 style="border-bottom: solid black 1px">Tin mới</h3>
+                <div class="card-body" th:each="item:${newsListFlag0}">
+
+                    <span><a th:href="@{'/News01/get/'+${item.getId()}}"><img th:src="@{${item.getThumbnail()}}" class ="thumbnail-img"></a></span>
+                    <span style="width: 500px;float: right">
+                        <span><a th:href="@{'/News01/get/'+${item.getId()}}" > <h3 class="card-title" th:text="${item.getTitle()}"></h3></a></span>
+                        <span th:text="${item.getShortDescription()}"></span>
+
+                    </span>
+                </div>
+
+
+
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card Two0</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card Two0</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>-->
+<!--                </div>-->
+
+<!--            </div>-->
+        </div>
+
+        <div class="col-md-4 mb-5">
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card One0</h2>-->
+
+
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card One0</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+
+<!--            </div>-->
+        </div>
+        <script>
+            $('.reponsive').slick({
+                dots: true,
+                prevArrow: $('.prev'),
+                nextArrow: $('.next'),
+                infinite: false,
+                speed: 300,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                            infinite: true,
+                            dots: true
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                    // You can unslick at a given breakpoint now by adding:
+                    // settings: "unslick"
+                    // instead of a settings object
+                ]
+            });
+        </script>
+<!--        </div>-->
+<!--        <div class="col-right col-medium">-->
+<!--        <div class="col-md-4 mb-5">-->
+<!--            <div class="card h-100">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card Two0</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>-->
+<!--                </div>-->
+<!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4 mb-5">-->
+<!--            <div class="card h-100">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card Three0</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+<!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4 mb-5">-->
+<!--            <div class="card h-100">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card one1</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+<!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4 mb-5">-->
+<!--            <div class="card h-100">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card two1</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+<!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4 mb-5">-->
+<!--            <div class="card h-100">-->
+<!--                <div class="card-body">-->
+<!--                    <h2 class="card-title">Card three</h2>-->
+<!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>-->
+<!--                </div>-->
+<!--                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    </div>
+
+<div class="row gx-4 gx-lg-5">
+    <div class="news-feature-Home card" th:each="cate:${category}">
+        <div  style="margin-top: 15px">
+            <h3 th:text="${cate.getName()}" style="border-bottom: solid black 1px"></h3>
+            <div class="card-body" th:each="item:${news}" th:if="${(item.getCategory().getParent_id() == cate.getId())}">
+
+                <a th:href="@{'/News01/get/'+${item.getId()}}"> <img th:src="@{${item.getThumbnail()}}" class ="thumbnail-img"></a>
+                <a th:href="@{'/News01/get/'+${item.getId()}}" > <h5 class="card-title" th:text="${item.getTitle()}"></h5></a>
+
+            </div>
+        </div>
+    </div>
+<!--    <div class="news-feature-Home">Hello</div>-->
+<!--    <div class="news-feature-Home">Hello</div>-->
+<!--    <div class="news-feature-Home">Hello</div>-->
+<!--    <div class="news-feature-Home">Hello</div>-->
+<!--    <div class="news-feature-Home">Hello</div>-->
+<!--    <div class="news-feature-Home">Hello</div>-->
+<!--    <div class="news-feature-Home">Hello</div>-->
+
+</div>
+
+</div>
+</body>
+</html>
